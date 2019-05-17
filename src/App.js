@@ -130,8 +130,8 @@ class App extends Component {
         token = window.QTalkApp.getUserAuthToken();
         //database.ref('token').set(token ? token : "no token");
       } catch {
-        token = "";
-        //token = "cdc9b8e03a9e85e02a425983028b602ecdd7bdd5";
+        // token = "";
+        token = "cdc9b8e03a9e85e02a425983028b602ecdd7bdd5";
       }
 
       let url = isDebug
@@ -159,7 +159,11 @@ class App extends Component {
             userId = data.userId;
             userName = data.userDetails.displayName;
           })
-          .catch(e => console.log(e));
+          .catch(e => {
+            console.log(e);
+            userId = "p1";
+            userName = "mario";
+          });
       }
 
       database
@@ -201,7 +205,7 @@ class App extends Component {
 
             console.log(playerList);
             // database.ref(`rooms/${this.state.gameId}/players`).set(playerList);
-            snapshot.ref.parent.update(playerList);
+            snapshot.ref.update(playerList);
           }
         });
       console.log("token", token);
