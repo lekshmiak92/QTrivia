@@ -73,48 +73,58 @@ class App extends Component {
           ? id
           : "no_game_id"
         : "no_location_pathname",
-      userId: ""
+      userId: "",
+      isInitialiser: false
     };
   }
 
   componentDidMount() {
-    this.getUserId();
     // this.getQuestions();
-    database
-      .ref(`rooms/${this.state.gameID}/players`)
-      .update({ text: "player joined" });
     // this.fetchGameData();
+    this.getUserId();
+    console.log(this.state.isInitialiser);
+
+    // database
+    //   .ref(`rooms/${this.state.gameID}/gameData`)
+    //   .update({ json: "dummydata" });
   }
 
-  // getQuestions = () => {
-  //   fetch(
-  //     `https://opentdb.com/api.php?amount=1&category=10&difficulty=easy&type=multiple`
-  //   )
-  //     .then(res => res.json())
-  //     .then(apiData => {
-  //       this.setState({
-  //         question: apiData.results[0].question,
-  //         answer: apiData.results[0].correct_answer,
-  //         wrongAnswers: apiData.results[0].incorrect_answers,
-  //         clickStatus: "off",
-  //         choseCorrectAnswer: false,
-  //         currentQuestion: this.state.currentQuestion + 1
-  //       });
+  getQuestions = () => {
+    fetch(
+      `https://opentdb.com/api.php?amount=10&category=10&difficulty=easy&type=multiple`
+    )
+      .then(res => res.json())
+      .then(apiData => {
+        this.setState({
+          question: apiData.results[0].question,
+          answer: apiData.results[0].correct_answer,
+          wrongAnswers: apiData.results[0].incorrect_answers,
+          clickStatus: "off",
+          choseCorrectAnswer: false,
+          currentQuestion: this.state.currentQuestion + 1
+        });
+        database.ref(`rooms/${this.state.gameID}/gameData`).set(apiData);
+        database.ref(`rooms/${this.state.gameID}`).update({
+          gameStatus: "start",
+          currentQuestion: 0
+        });
 
-  //       this.shuffleChoices();
-  //     });
-  // };
+        this.shuffleChoices();
+      });
+  };
 
-  // shuffleChoices = () => {
-  //   let choiceArray = this.state.wrongAnswers.concat(this.state.answer);
-  //   choiceArray = choiceArray.sort((a, b) => {
-  //     return 0.5 - Math.random();
-  //   });
+  shuffleChoices = () => {
+    let choiceArray = this.state.wrongAnswers.concat(this.state.answer);
+    choiceArray = choiceArray.sort((a, b) => {
+      return 0.5 - Math.random();
+    });
 
-  //   this.setState({
-  //     choicesArray: choiceArray
-  //   });
-  // };
+    this.setState({
+      choicesArray: choiceArray
+    });
+
+    database.ref(`rooms/${this.state.gameID}/choiceOptions`).set(choiceArray);
+  };
 
   getUserId = () => {
     console.log("getUser Id functions");
@@ -156,14 +166,16 @@ class App extends Component {
           })
           .then(data => {
             console.log(data.userId);
-            userId = data.userId;
-            userName = data.userDetails.displayName;
+            userId = data.userId ? data.userId : 1;
+            userName = "mario";
           })
           .catch(e => {
             console.log(e);
-            userId = "p1";
-            userName = "mario";
           });
+        this.setState({
+          userId: userId,
+          userName: userName
+        });
       }
 
       database
@@ -184,28 +196,36 @@ class App extends Component {
 
             try {
               let zeroIndex = playerList.id.indexOf(0);
+              console.log(playerList.id);
+              console.log(playerList);
               if (zeroIndex !== -1) {
                 playerList.id[zeroIndex] = userId ? userId : 0;
                 playerList.name[zeroIndex] = userName ? userName : "";
               } else {
-                if (playerList.id.length < 2) {
-                  playerList.id.push(userId ? userId : 0);
-                  playerList.name.push(userName ? userName : 0);
+                if (playerList.id.length === 0) {
+                  console.log("hoy");
+                  this.setState({ isInitialiser: true });
+
+                  database
+                    .ref(`rooms/${this.state.gameID}/initialiser`)
+                    .set(userId);
+
+                  this.getQuestions();
                 }
+                playerList.id.push(userId ? userId : 0);
+                playerList.name.push(userName ? userName : "");
               }
             } catch (error) {
-              console.log("Player list could not be defined");
+              console.log(error);
             }
 
             this.setState({
-              userId: userId,
               playerList: playerList,
               loading: false
             });
 
             console.log(playerList);
-            // database.ref(`rooms/${this.state.gameId}/players`).set(playerList);
-            snapshot.ref.update(playerList);
+            database.ref(`rooms/${this.state.gameID}/players`).set(playerList);
           }
         });
       console.log("token", token);
@@ -231,9 +251,9 @@ class App extends Component {
     }
   };
 
-  handleClickOfNext = () => {
-    this.getQuestions();
-  };
+  // handleClickOfNext = () => {
+  //   this.getQuestions();
+  // };
 
   // storeGameData = () => {
   //   let userData = {

@@ -51,6 +51,7 @@ admin.initializeApp();
 // };
 
 // whattodo = () => {};
+var data;
 
 exports.newGame = functions.database
   .ref("/rooms/{gameid}")
@@ -59,4 +60,15 @@ exports.newGame = functions.database
     snapshot.ref.update({ msg: "cloud fn are fine" });
     // let apiDataJson = getQuestions();
     return snapshot.ref.update({ option: "returnvalue" });
+  });
+
+exports.gameStart = functions.database
+  .ref("/rooms/{gameid}/gameStatus")
+  .onCreate((snapshot, context) => {
+    database
+      .ref("/rooms/{gameid}/gameData/results")
+      .once("value", function(snapshot) {
+        data = snapshot.val();
+      });
+    return database.ref("/rooms/{gameid}/fromcloud").set(data);
   });
