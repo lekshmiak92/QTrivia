@@ -163,7 +163,7 @@ class App extends Component {
       }
 
       database
-        .ref(`rooms/${this.state.gameId}/playerList`)
+        .ref(`rooms/${this.state.gameId}/players`)
         .once("value", snapshot => {
           if (snapshot) {
             console.log(snapshot);
@@ -200,9 +200,7 @@ class App extends Component {
             });
 
             console.log(playerList);
-            database
-              .ref(`qtictoe/${this.state.gameId}/playerList`)
-              .set(playerList);
+            database.ref(`rooms/${this.state.gameId}/players`).set(playerList);
           }
         });
       console.log("token", token);
