@@ -70,9 +70,9 @@ class App extends Component {
       userLevel: "",
       gameID: document.location.pathname
         ? document.location.pathname.slice(1, 8) === "QTrivia"
-          ? "123"
-          : "456b"
-        : "789",
+          ? id
+          : "no_game_id"
+        : "no_location_pathname",
       userId: ""
     };
   }
