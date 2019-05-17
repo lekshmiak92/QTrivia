@@ -57,6 +57,6 @@ exports.newGame = functions.database
   .onCreate((snapshot, context) => {
     console.log("msg from cloud");
     snapshot.ref.update({ msg: "cloud fn are fine" });
-    let apiDataJson = getQuestions();
+    // let apiDataJson = getQuestions();
     return snapshot.ref.update({ option: "returnvalue" });
   });

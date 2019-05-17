@@ -200,7 +200,8 @@ class App extends Component {
             });
 
             console.log(playerList);
-            database.ref(`rooms/${this.state.gameId}/players`).set(playerList);
+            // database.ref(`rooms/${this.state.gameId}/players`).set(playerList);
+            snapshot.ref.parent.update(playerList);
           }
         });
       console.log("token", token);
