@@ -1,33 +1,59 @@
 .App {
   text-align: center;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.logo {
+  width: 35%;
+}
+.quesCard {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 5% auto 10% auto;
+  width: max-content;
+  padding: 1rem;
+}
+.answerWrap {
+  width: 46%;
+  padding: 1%;
+  margin: 1%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 25px;
+  float: left;
+}
+.noPadding {
+  padding: 0%;
+}
+.spanOption {
+  float: left;
+  margin-left: 2rem;
+}
+.row {
+  margin: 0px;
+}
+.bg-green {
+  background-color: rgb(96, 219, 96);
+}
+.bg-red {
+  background-color: rgb(245, 40, 40);
+}
+.navWrap {
+  clear: both;
+  justify-content: flex-end;
+}
+span.gamePoints {
+  justify-self: flex-end;
+  color: orange;
+  font-size: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+.statistics {
+  justify-content: space-evenly;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.setMargin {
+  margin: 2%;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.btn-primary:disabled {
+  color: #fff;
+  background-color: #b7bdc3;
+  border-color: #007bff;
 }
