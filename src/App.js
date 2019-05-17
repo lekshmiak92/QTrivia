@@ -72,12 +72,13 @@ class App extends Component {
         ? document.location.pathname.slice(1, 7) === "trivia"
           ? "123"
           : "456b"
-        : "789"
+        : "789",
+      userId: ""
     };
   }
 
   componentDidMount() {
-    this.getUserID();
+    this.getUserId();
     // this.getQuestions();
     database
       .ref(`rooms/${this.state.gameID}/players`)
@@ -114,6 +115,99 @@ class App extends Component {
   //     choicesArray: choiceArray
   //   });
   // };
+
+  getUserId = () => {
+    console.log("getUser Id functions");
+    if (!this.state.userId) {
+      console.log("[App.js] getUserId()");
+      let token, userId, userName;
+      let playerList = {
+        id: [0, 0],
+        name: ["", ""]
+      };
+
+      try {
+        token = window.QTalkApp.getUserAuthToken();
+        //database.ref('token').set(token ? token : "no token");
+      } catch {
+        token = "";
+        //token = "cdc9b8e03a9e85e02a425983028b602ecdd7bdd5";
+      }
+
+      let url = isDebug
+        ? "https://staging.remote.qtalk.io/v1/verifyAuthIdToken"
+        : "https://remote.qtalk.io/v1/verifyAuthIdToken";
+
+      if (isTestUser) {
+        url = url + "?isTestUser=true";
+      }
+
+      console.log(url);
+
+      if (token) {
+        fetch(url, {
+          method: "GET",
+          headers: {
+            "X-Auth-Id-Token": token ? token : ""
+          }
+        })
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            console.log(data.userId);
+            userId = data.userId;
+            userName = data.userDetails.displayName;
+          })
+          .catch(e => console.log(e));
+      }
+
+      database
+        .ref(`rooms/${this.state.gameId}/playerList`)
+        .once("value", snapshot => {
+          if (snapshot) {
+            console.log(snapshot);
+            console.log(snapshot.val());
+
+            playerList = snapshot.val();
+
+            if (!playerList) {
+              playerList = {
+                id: [],
+                name: []
+              };
+            }
+
+            try {
+              let zeroIndex = playerList.id.indexOf(0);
+              if (zeroIndex !== -1) {
+                playerList.id[zeroIndex] = userId ? userId : 0;
+                playerList.name[zeroIndex] = userName ? userName : "";
+              } else {
+                if (playerList.id.length < 2) {
+                  playerList.id.push(userId ? userId : 0);
+                  playerList.name.push(userName ? userName : 0);
+                }
+              }
+            } catch (error) {
+              console.log("Player list could not be defined");
+            }
+
+            this.setState({
+              userId: userId,
+              playerList: playerList,
+              loading: false
+            });
+
+            console.log(playerList);
+            database
+              .ref(`qtictoe/${this.state.gameId}/playerList`)
+              .set(playerList);
+          }
+        });
+      console.log("token", token);
+    }
+  };
 
   handleOptionClick = e => {
     let chosenOption = e.target.textContent;

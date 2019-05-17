@@ -1,6 +1,7 @@
 {
   "name": "qtrivia",
   "version": "0.1.0",
+  "homepage": "https://lekshmiak92.github.io/QTrivia/",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
