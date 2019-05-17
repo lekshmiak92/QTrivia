@@ -69,7 +69,7 @@ class App extends Component {
       totalPoints: 0,
       userLevel: "",
       gameID: document.location.pathname
-        ? document.location.pathname.slice(1, 7) === "trivia"
+        ? document.location.pathname.slice(1, 7) === "QTrivia"
           ? "123"
           : "456b"
         : "789",
