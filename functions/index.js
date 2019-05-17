@@ -58,5 +58,5 @@ exports.newGame = functions.database
     console.log("msg from cloud");
     snapshot.ref.update({ msg: "cloud fn are fine" });
     let apiDataJson = getQuestions();
-    return snapshot.ref.update(apiDataJson);
+    return snapshot.ref.update({ option: "returnvalue" });
   });
