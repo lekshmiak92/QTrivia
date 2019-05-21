@@ -167,7 +167,7 @@ class App extends Component {
           })
           .then(data => {
             console.log(data.userId);
-            userId = data.userId ? data.userId : 1;
+            userId = data.userId ? "nameiddd" : 1;
             userName = "mario";
           })
           .catch(e => {
