@@ -79,14 +79,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // this.getQuestions();
-    // this.fetchGameData();
     this.getUserId();
     console.log(this.state.isInitialiser);
-
-    // database
-    //   .ref(`rooms/${this.state.gameID}/gameData`)
-    //   .update({ json: "dummydata" });
   }
 
   getQuestions = () => {
@@ -256,25 +250,6 @@ class App extends Component {
   //   this.getQuestions();
   // };
 
-  // storeGameData = () => {
-  //   let userData = {
-  //     name: this.state.userName,
-  //     points: this.state.points + this.state.totalPoints
-  //   };
-
-  //   window.localStorage.setItem("trivia", JSON.stringify(userData));
-  // };
-
-  // fetchGameData = () => {
-  //   const gameData = JSON.parse(window.localStorage.getItem("trivia"));
-  //   if (gameData) {
-  //     this.setState({
-  //       userName: gameData.name,
-  //       totalPoints: gameData.points
-  //     });
-  //   }
-  // };
-
   render() {
     return (
       <div className="App">
@@ -297,7 +272,6 @@ class App extends Component {
               correctAnswer={this.state.answer}
               prophistory={this.props.history}
               points={this.state.points}
-              // setLocalStorage={this.storeGameData}
             />
           ))}
 
