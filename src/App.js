@@ -209,7 +209,7 @@ class App extends Component {
 
                   database
                     .ref(`rooms/${this.state.gameID}/initialiser`)
-                    .set(userId);
+                    .set(userId ? userId : 999);
 
                   this.getQuestions();
                 }
