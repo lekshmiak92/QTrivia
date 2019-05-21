@@ -240,8 +240,9 @@ class App extends Component {
 
   getState = () => {
     let que,
-      ans,
-      multipleOptions = "";
+      quenum,
+      ans = "";
+    let multipleOptions = [];
     console.log("inside getstate");
 
     database.ref(`rooms/${this.state.gameID}`).on("value", snapshot => {
@@ -250,13 +251,17 @@ class App extends Component {
         que = snapshot.val().question ? snapshot.val().question : "no que";
         multipleOptions = snapshot.val().choicesArray
           ? snapshot.val().choicesArray
-          : "no opt";
+          : [];
         ans = snapshot.val().answer ? snapshot.val().answer : "no ans";
+        quenum = snapshot.val().currentQuestion
+          ? snapshot.val().currentQuestion
+          : 0;
 
         this.setState({
           question: que,
           answer: ans,
-          choicesArray: multipleOptions
+          choicesArray: multipleOptions,
+          currentQuestion: quenum
         });
       }
     });
@@ -281,9 +286,17 @@ class App extends Component {
     }
   };
 
-  // handleClickOfNext = () => {
-  //   this.getQuestions();
-  // };
+  handleClickOfNext = () => {
+    // this.getQuestions();
+    if (this.state.isInitialiser) {
+      database
+        .ref(`rooms/${this.state.gameID}/currentQuestion`)
+        .transaction(snapshot => {
+          console.log("inside click-next" + snapshot);
+          return snapshot + 1;
+        });
+    }
+  };
 
   render() {
     return (
