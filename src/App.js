@@ -80,6 +80,7 @@ class App extends Component {
 
   componentDidMount() {
     this.getUserId();
+
     console.log(this.state.isInitialiser);
   }
 
@@ -89,35 +90,44 @@ class App extends Component {
     )
       .then(res => res.json())
       .then(apiData => {
-        this.setState({
+        // this.setState({
+        //   question: apiData.results[0].question,
+        //   answer: apiData.results[0].correct_answer,
+        //   wrongAnswers: apiData.results[0].incorrect_answers,
+        //   clickStatus: "off",
+        //   choseCorrectAnswer: false,
+        //   currentQuestion: this.state.currentQuestion + 1
+        // });
+
+        let options = this.shuffleChoices(
+          apiData.results[0].incorrect_answers,
+          apiData.results[0].correct_answer
+        );
+
+        // database.ref(`rooms/${this.state.gameID}/gameData`).set(apiData);
+        database.ref(`rooms/${this.state.gameID}`).update({
+          gameData: apiData,
+          gameStatus: "start",
+          currentQuestion: 0,
           question: apiData.results[0].question,
           answer: apiData.results[0].correct_answer,
-          wrongAnswers: apiData.results[0].incorrect_answers,
-          clickStatus: "off",
-          choseCorrectAnswer: false,
-          currentQuestion: this.state.currentQuestion + 1
+          choicesArray: options
         });
-        database.ref(`rooms/${this.state.gameID}/gameData`).set(apiData);
-        database.ref(`rooms/${this.state.gameID}`).update({
-          gameStatus: "start",
-          currentQuestion: 0
-        });
-
-        this.shuffleChoices();
       });
   };
 
-  shuffleChoices = () => {
-    let choiceArray = this.state.wrongAnswers.concat(this.state.answer);
+  shuffleChoices = (wrongOptions, rightOption) => {
+    let choiceArray = wrongOptions.concat(rightOption);
     choiceArray = choiceArray.sort((a, b) => {
       return 0.5 - Math.random();
     });
 
-    this.setState({
-      choicesArray: choiceArray
-    });
+    // this.setState({
+    //   choicesArray: choiceArray
+    // });
 
-    database.ref(`rooms/${this.state.gameID}/choiceOptions`).set(choiceArray);
+    // database.ref(`rooms/${this.state.gameID}/choiceOptions`).set(choiceArray);
+    return choiceArray;
   };
 
   getUserId = () => {
@@ -225,6 +235,31 @@ class App extends Component {
         });
       console.log("token", token);
     }
+    this.getState();
+  };
+
+  getState = () => {
+    let que,
+      ans,
+      multipleOptions = "";
+    console.log("inside getstate");
+
+    database.ref(`rooms/${this.state.gameID}`).on("value", snapshot => {
+      console.log(snapshot.val());
+      if (snapshot && snapshot.val()) {
+        que = snapshot.val().question ? snapshot.val().question : "no que";
+        multipleOptions = snapshot.val().choicesArray
+          ? snapshot.val().choicesArray
+          : "no opt";
+        ans = snapshot.val().answer ? snapshot.val().answer : "no ans";
+
+        this.setState({
+          question: que,
+          answer: ans,
+          choicesArray: multipleOptions
+        });
+      }
+    });
   };
 
   handleOptionClick = e => {
