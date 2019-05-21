@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "856de11def24f7ef648ab420dc6ebda9",
+    "revision": "a87600ab971a4fc9667e5cf761545f0a",
     "url": "/QTrivia/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/QTrivia/static/css/2.266e55a5.chunk.css"
   },
   {
-    "revision": "54c1762a00424b321a2a",
+    "revision": "661409208402bbbd1596",
     "url": "/QTrivia/static/css/main.bb9b9dbd.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/QTrivia/static/js/2.179945e6.chunk.js"
   },
   {
-    "revision": "54c1762a00424b321a2a",
-    "url": "/QTrivia/static/js/main.3f7a6548.chunk.js"
+    "revision": "661409208402bbbd1596",
+    "url": "/QTrivia/static/js/main.b565d030.chunk.js"
   },
   {
     "revision": "031a74289bd44a8a7066",
