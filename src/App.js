@@ -127,7 +127,8 @@ class App extends Component {
   };
 
   getUserId = () => {
-    console.log("getUser Id functions");
+    console.log("getUser Id functions", this.state.gameID);
+
     if (!this.state.userId) {
       console.log("[App.js] getUserId()");
       let token, userId, userName;
@@ -179,7 +180,7 @@ class App extends Component {
       }
 
       database
-        .ref(`rooms/${this.state.gameId}/players`)
+        .ref(`rooms/${this.state.gameID}/players`)
         .once("value", snapshot => {
           if (snapshot) {
             console.log(snapshot);
