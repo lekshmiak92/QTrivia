@@ -80,7 +80,31 @@ class App extends Component {
 
   componentDidMount() {
     this.getUserId();
-
+    database
+      .ref(`rooms/${this.state.gameID}/gameStatus`)
+      .on("value", snapshot => {
+        console.log(snapshot.val());
+        if (snapshot.val() === "start" && this.state.isInitialiser === true) {
+          try {
+            if (window.QTalkApp) {
+              window.QTalkApp.notifyGameRoundStarted();
+            }
+          } catch {
+            console.log("Present Game started");
+          }
+        } else if (
+          snapshot.val() === "end" &&
+          this.state.isInitialiser === true
+        ) {
+          try {
+            if (window.QTalkApp) {
+              window.QTalkApp.notifyGameRoundEnded();
+            }
+          } catch {
+            console.log("Present Game ended");
+          }
+        }
+      });
     console.log(this.state.isInitialiser);
   }
 
@@ -99,36 +123,36 @@ class App extends Component {
         //   currentQuestion: this.state.currentQuestion + 1
         // });
 
-        let options = this.shuffleChoices(
-          apiData.results[0].incorrect_answers,
-          apiData.results[0].correct_answer
-        );
+        // let options = this.shuffleChoices(
+        //   apiData.results[0].incorrect_answers,
+        //   apiData.results[0].correct_answer
+        // );
 
         // database.ref(`rooms/${this.state.gameID}/gameData`).set(apiData);
         database.ref(`rooms/${this.state.gameID}`).update({
-          gameData: apiData,
-          gameStatus: "start",
-          currentQuestion: 0,
-          question: apiData.results[0].question,
-          answer: apiData.results[0].correct_answer,
-          choicesArray: options
+          gameData: { currentQuestion: 0, gamelib: apiData },
+          gameStatus: "start"
+          // currentQuestion: 0,
+          // question: apiData.results[0].question,
+          // answer: apiData.results[0].correct_answer,
+          // choicesArray: options
         });
       });
   };
 
-  shuffleChoices = (wrongOptions, rightOption) => {
-    let choiceArray = wrongOptions.concat(rightOption);
-    choiceArray = choiceArray.sort((a, b) => {
-      return 0.5 - Math.random();
-    });
+  // shuffleChoices = (wrongOptions, rightOption) => {
+  //   let choiceArray = wrongOptions.concat(rightOption);
+  //   choiceArray = choiceArray.sort((a, b) => {
+  //     return 0.5 - Math.random();
+  //   });
 
-    // this.setState({
-    //   choicesArray: choiceArray
-    // });
+  //   // this.setState({
+  //   //   choicesArray: choiceArray
+  //   // });
 
-    // database.ref(`rooms/${this.state.gameID}/choiceOptions`).set(choiceArray);
-    return choiceArray;
-  };
+  //   // database.ref(`rooms/${this.state.gameID}/choiceOptions`).set(choiceArray);
+  //   return choiceArray;
+  // };
 
   getUserId = () => {
     console.log("getUser Id functions", this.state.gameID);
@@ -143,7 +167,6 @@ class App extends Component {
 
       try {
         token = window.QTalkApp.getUserAuthToken();
-        //database.ref('token').set(token ? token : "no token");
       } catch {
         // token = "";
         token = "cdc9b8e03a9e85e02a425983028b602ecdd7bdd5";
@@ -240,7 +263,6 @@ class App extends Component {
 
   getState = () => {
     let que,
-      quenum,
       ans = "";
     let multipleOptions = [];
     console.log("inside getstate");
@@ -253,18 +275,26 @@ class App extends Component {
           ? snapshot.val().choicesArray
           : [];
         ans = snapshot.val().answer ? snapshot.val().answer : "no ans";
-        quenum = snapshot.val().currentQuestion
-          ? snapshot.val().currentQuestion
-          : 0;
 
         this.setState({
           question: que,
           answer: ans,
-          choicesArray: multipleOptions,
-          currentQuestion: quenum
+          choicesArray: multipleOptions
         });
       }
     });
+
+    database
+      .ref(`rooms/${this.state.gameID}/gameData/currentQuestion`)
+      .on("value", snapshot => {
+        console.log(snapshot.val());
+        this.setState({
+          chosenAnswer: "",
+          clickStatus: "off",
+          choseCorrectAnswer: false,
+          currentQuestion: snapshot.val()
+        });
+      });
   };
 
   handleOptionClick = e => {
@@ -287,13 +317,15 @@ class App extends Component {
   };
 
   handleClickOfNext = () => {
-    // this.getQuestions();
     if (this.state.isInitialiser) {
       database
-        .ref(`rooms/${this.state.gameID}/currentQuestion`)
+        .ref(`rooms/${this.state.gameID}/gameData/currentQuestion`)
         .transaction(snapshot => {
           console.log("inside click-next" + snapshot);
-          return snapshot + 1;
+          if (snapshot === 9) {
+            // 10 questions ---> counts from 0 to 9
+            return snapshot;
+          } else return snapshot + 1;
         });
     }
   };
