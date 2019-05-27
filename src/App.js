@@ -6,6 +6,7 @@ import Question from "./components/question";
 import AnswerChoice from "./components/answerChoice";
 import NextButton from "./components/nextButton";
 import GameStatistics from "./components/gameStatistics";
+import Timer from "./components/timer";
 
 function getAllUrlParams(url) {
   var queryString = url ? url.split("?")[1] : window.location.search.slice(1);
@@ -74,7 +75,8 @@ class App extends Component {
           : "no_game_id"
         : "no_location_pathname",
       userId: "",
-      isInitialiser: false
+      isInitialiser: false,
+      gameTime: 30
     };
   }
 
@@ -334,6 +336,10 @@ class App extends Component {
     return (
       <div className="App">
         <Container>
+          <Timer
+            startTimeInSeconds={this.state.gameTime}
+            nextRound={this.handleClickOfNext}
+          />
           <GameStatistics
             gamePoints={this.state.points}
             currentQuestion={this.state.currentQuestion}
