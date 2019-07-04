@@ -13,7 +13,6 @@ class GameOverPopup extends Component {
 
   handleNew = () => {
     this.handleClose();
-    this.props.setLocalStorage();
   };
 
   componentDidMount() {
@@ -29,16 +28,13 @@ class GameOverPopup extends Component {
           <Modal.Header>
             <Modal.Title>Game Over</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            OOPS! You lost the winstreak !<br />
-            You earned {this.props.points} Points
-          </Modal.Body>
+          <Modal.Body>Time up !!! fetching results...</Modal.Body>
           <Modal.Footer>
-            <Link to="/">
-              <Button variant="secondary" onClick={this.handleNew}>
-                Home
-              </Button>
-            </Link>
+            {/* <Link to="/"> */}
+            <Button variant="secondary" onClick={this.handleNew}>
+              Home
+            </Button>
+            {/* </Link> */}
           </Modal.Footer>
         </Modal>
       </>

@@ -6,7 +6,9 @@ import Question from "./components/question";
 import AnswerChoice from "./components/answerChoice";
 import NextButton from "./components/nextButton";
 import GameStatistics from "./components/gameStatistics";
-import Timer from "./components/timer";
+import GameOverPopup from "./components/gameOverPopup";
+// import Timer from "./components/timer";
+import CountDown from "./components/countDown";
 
 function getAllUrlParams(url) {
   var queryString = url ? url.split("?")[1] : window.location.search.slice(1);
@@ -65,7 +67,7 @@ class App extends Component {
       clickStatus: "off",
       choseCorrectAnswer: false,
       points: 0,
-      currentQuestion: 0,
+      currentQuestion: 1,
       userName: "",
       totalPoints: 0,
       userLevel: "",
@@ -76,7 +78,10 @@ class App extends Component {
         : "no_location_pathname",
       userId: "",
       isInitialiser: false,
-      gameTime: 30
+      gameTime: 30,
+      gameLib: {},
+      gameBegin: "",
+      gameEnd: null
     };
   }
 
@@ -86,75 +91,25 @@ class App extends Component {
       .ref(`rooms/${this.state.gameID}/gameStatus`)
       .on("value", snapshot => {
         console.log(snapshot.val());
-        if (snapshot.val() === "start" && this.state.isInitialiser === true) {
+        if (snapshot.val() === "start") {
           try {
             if (window.QTalkApp) {
               window.QTalkApp.notifyGameRoundStarted();
             }
-          } catch {
+          } catch (e) {
             console.log("Present Game started");
           }
-        } else if (
-          snapshot.val() === "end" &&
-          this.state.isInitialiser === true
-        ) {
+        } else if (snapshot.val() === "end") {
           try {
             if (window.QTalkApp) {
               window.QTalkApp.notifyGameRoundEnded();
             }
-          } catch {
+          } catch (e) {
             console.log("Present Game ended");
           }
         }
       });
-    console.log(this.state.isInitialiser);
   }
-
-  getQuestions = () => {
-    fetch(
-      `https://opentdb.com/api.php?amount=10&category=10&difficulty=easy&type=multiple`
-    )
-      .then(res => res.json())
-      .then(apiData => {
-        // this.setState({
-        //   question: apiData.results[0].question,
-        //   answer: apiData.results[0].correct_answer,
-        //   wrongAnswers: apiData.results[0].incorrect_answers,
-        //   clickStatus: "off",
-        //   choseCorrectAnswer: false,
-        //   currentQuestion: this.state.currentQuestion + 1
-        // });
-
-        // let options = this.shuffleChoices(
-        //   apiData.results[0].incorrect_answers,
-        //   apiData.results[0].correct_answer
-        // );
-
-        // database.ref(`rooms/${this.state.gameID}/gameData`).set(apiData);
-        database.ref(`rooms/${this.state.gameID}`).update({
-          gameData: { currentQuestion: 0, gamelib: apiData },
-          gameStatus: "start"
-          // currentQuestion: 0,
-          // question: apiData.results[0].question,
-          // answer: apiData.results[0].correct_answer,
-          // choicesArray: options
-        });
-      });
-  };
-
-  // shuffleChoices = (wrongOptions, rightOption) => {
-  //   let choiceArray = wrongOptions.concat(rightOption);
-  //   choiceArray = choiceArray.sort((a, b) => {
-  //     return 0.5 - Math.random();
-  //   });
-
-  //   // this.setState({
-  //   //   choicesArray: choiceArray
-  //   // });
-
-  //   // database.ref(`rooms/${this.state.gameID}/choiceOptions`).set(choiceArray);
-  //   return choiceArray;
-  // };
 
   getUserId = () => {
     console.log("getUser Id functions", this.state.gameID);
@@ -169,7 +124,7 @@ class App extends Component {
 
       try {
         token = window.QTalkApp.getUserAuthToken();
-      } catch {
+      } catch (e) {
         // token = "";
         token = "cdc9b8e03a9e85e02a425983028b602ecdd7bdd5";
       }
@@ -196,8 +151,8 @@ class App extends Component {
           })
           .then(data => {
             console.log(data.userId);
-            userId = data.userId ? "nulluserid" : 1;
-            userName = "mario";
+            userId = data.userId;
+            userName = data.userDetails.displayName;
           })
           .catch(e => {
             console.log(e);
@@ -229,27 +184,34 @@ class App extends Component {
               console.log(playerList.id);
               console.log(playerList);
               if (zeroIndex !== -1) {
-                playerList.id[zeroIndex] = userId ? userId : 0;
-                playerList.name[zeroIndex] = userName ? userName : "";
+                playerList.id[zeroIndex] = userId ? userId : "testid";
+                playerList.name[zeroIndex] = userName ? userName : "testUser";
               } else {
                 if (playerList.id.length === 0) {
                   console.log("hoy");
                   this.setState({ isInitialiser: true });
+                  this.getQuestions();
 
                   database
                     .ref(`rooms/${this.state.gameID}/initialiser`)
                     .set(userId ? userId : 999);
-
-                  this.getQuestions();
+                } else {
+                  database
+                    .ref(`rooms/${this.state.gameID}/gamelib`)
+                    .once("value", snapshot => {
+                      let array = snapshot.val().results;
+                      this.setState({ gameLib: array, gameBegin: "true" });
+                    });
                 }
-                playerList.id.push(userId ? userId : 0);
-                playerList.name.push(userName ? userName : "");
+                playerList.id.push(userId ? userId : "testid");
+                playerList.name.push(userName ? userName : "testUser");
               }
             } catch (error) {
               console.log(error);
             }
 
             this.setState({
+              userName: userName,
               playerList: playerList,
               loading: false
             });
@@ -260,43 +222,46 @@ class App extends Component {
         });
       console.log("token", token);
     }
-    this.getState();
+  };
+
+  getQuestions = () => {
+    console.log(this.state.isInitialiser, "dhe ithu varunnundo entho");
+    fetch(`https://opentdb.com/api.php?amount=30&difficulty=easy&type=multiple`)
+      .then(res => res.json())
+      .then(apiData => {
+        database.ref(`rooms/${this.state.gameID}`).update({
+          gamelib: apiData,
+          gameStatus: "start"
+        });
+        this.setState({ gameLib: apiData.results, gameBegin: "true" });
+      });
   };
 
   getState = () => {
-    let que,
-      ans = "";
-    let multipleOptions = [];
     console.log("inside getstate");
+    console.log(this.state.gameLib);
 
-    database.ref(`rooms/${this.state.gameID}`).on("value", snapshot => {
-      console.log(snapshot.val());
-      if (snapshot && snapshot.val()) {
-        que = snapshot.val().question ? snapshot.val().question : "no que";
-        multipleOptions = snapshot.val().choicesArray
-          ? snapshot.val().choicesArray
-          : [];
-        ans = snapshot.val().answer ? snapshot.val().answer : "no ans";
+    let i = this.state.currentQuestion - 1;
+    let list = this.state.gameLib[i];
+    console.log(i);
+    let wrongchoices = list.incorrect_answers;
+    let rightchoice = list.correct_answer;
+    let multipleOptions = this.shuffleChoices(wrongchoices, rightchoice);
+    let que = list.question.replace(/&quot;/g, '"').replace(/&#039;/g, `'`);
+    this.setState({
+      question: que,
+      answer: list.correct_answer,
+      choicesArray: multipleOptions
+    });
+  };
 
-        this.setState({
-          question: que,
-          answer: ans,
-          choicesArray: multipleOptions
-        });
-      }
+  shuffleChoices = (wrongOptions, rightOption) => {
+    let choiceArray = wrongOptions.concat(rightOption);
+    choiceArray = choiceArray.sort((a, b) => {
+      return 0.5 - Math.random();
     });
 
-    database
-      .ref(`rooms/${this.state.gameID}/gameData/currentQuestion`)
-      .on("value", snapshot => {
-        console.log(snapshot.val());
-        this.setState({
-          chosenAnswer: "",
-          clickStatus: "off",
-          choseCorrectAnswer: false,
-          currentQuestion: snapshot.val()
-        });
-      });
+    return choiceArray;
   };
 
   handleOptionClick = e => {
@@ -319,27 +284,48 @@ class App extends Component {
   };
 
   handleClickOfNext = () => {
-    if (this.state.isInitialiser) {
-      database
-        .ref(`rooms/${this.state.gameID}/gameData/currentQuestion`)
-        .transaction(snapshot => {
-          console.log("inside click-next" + snapshot);
-          if (snapshot === 9) {
-            // 10 questions ---> counts from 0 to 9
-            return snapshot;
-          } else return snapshot + 1;
-        });
-    }
+    this.setState({
+      currentQuestion: this.state.currentQuestion + 1,
+      chosenAnswer: "",
+      clickStatus: "off",
+      choseCorrectAnswer: false
+    });
+    this.getState();
+  };
+
+  resetGameBegin = () => {
+    this.setState({ gameBegin: "false" });
+  };
+
+  setGameEnd = () => {
+    this.setState({ gameEnd: true });
+    let uName = this.state.userName;
+    let points = this.state.points;
+    let obj = { uName: points };
+    database
+      .ref(`rooms/${this.state.gameID}/playerPoints/${this.state.userName}`)
+      .set({
+        points
+      });
   };
 
   render() {
+    let stat = this.state.gameBegin;
+    let gameEnd = this.state.gameEnd;
+    let popup;
+    if (stat === "true" && this.state.gameLib !== null) {
+      this.getState();
+      this.resetGameBegin();
+    }
+    if (gameEnd) {
+      popup = <GameOverPopup />;
+    } else {
+      popup = "";
+    }
     return (
       <div className="App">
         <Container>
-          <Timer
-            startTimeInSeconds={this.state.gameTime}
-            nextRound={this.handleClickOfNext}
-          />
+          <CountDown seconds={60} onFinish={this.setGameEnd} />
           <GameStatistics
             gamePoints={this.state.points}
             currentQuestion={this.state.currentQuestion}
@@ -367,6 +353,7 @@ class App extends Component {
             onClickOfNext={this.handleClickOfNext}
             choseCorrectAnswer={this.state.choseCorrectAnswer}
           />
+          {popup}
         </Container>
       </div>
     );

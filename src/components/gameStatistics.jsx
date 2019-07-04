@@ -6,7 +6,7 @@ const GameStatistics = props => {
   return (
     <Row className="statistics">
       <Col>
-        Que.No: <span className="gamePoints">{props.currentQuestion + 1}</span>
+        Que.No: <span className="gamePoints">{props.currentQuestion}</span>
       </Col>
       <Col>
         Points:<span className="gamePoints">{props.gamePoints}</span>
