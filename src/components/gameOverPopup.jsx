@@ -1,11 +1,15 @@
 import React, { Component } from "react";
+import { database } from "../firebase";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 
 class GameOverPopup extends Component {
   constructor(props) {
     super(props);
-    this.state = { show: false };
+    this.state = {
+      show: false,
+      pointsTable: {}
+    };
   }
   handleClose = () => {
     this.setState({ show: false });
@@ -19,6 +23,11 @@ class GameOverPopup extends Component {
     setTimeout(() => {
       this.setState({ show: true });
     }, 2000);
+    database
+      .ref(`rooms/${this.state.gameID}/playerPoints`)
+      .on("value", snapshot => {
+        this.setState({ pointsTable: snapshot.val() });
+      });
   }
 
   render() {

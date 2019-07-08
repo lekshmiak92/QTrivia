@@ -4,19 +4,31 @@
 .logo {
   width: 35%;
 }
+.card {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 0.8rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
 .quesCard {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   margin: 5% auto 10% auto;
   width: max-content;
   padding: 1rem;
   max-width: fit-content;
+  background: #ffff8c;
 }
 .answerWrap {
-  width: 46%;
+  /* width: 46%;
   padding: 1%;
-  margin: 3% 2%;
+  margin: 3% 2%; */
+  width: inherit;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 25px;
+  float: left;
+}
+.leftPull {
   float: left;
 }
 .noPadding {
@@ -35,6 +47,9 @@
 .bg-red {
   background-color: rgb(245, 40, 40);
 }
+.bg-lightBlue {
+  background: #c3d2ed;
+}
 .navWrap {
   clear: both;
   justify-content: flex-end;
@@ -48,6 +63,7 @@ span.gamePoints {
 }
 .statistics {
   justify-content: space-evenly;
+  background: #b6f1b6;
 }
 
 .setMargin {
@@ -102,4 +118,8 @@ pre {
   to {
     stroke-dashoffset: 0px;
   }
+}
+
+.bottomPadding {
+  padding-bottom: 1em;
 }

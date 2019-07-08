@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "../App.css";
-import Card from "react-bootstrap/Card";
-// import GameOverPopup from "./gameOverPopup";
+import { Card, Col } from "react-bootstrap";
 
 class AnswerChoice extends Component {
   constructor(props) {
@@ -14,9 +13,6 @@ class AnswerChoice extends Component {
       this.props.clickStatus === "on" &&
       this.props.chosenAnswer !== "" &&
       this.props.answerOption === this.props.correctAnswer
-      // (this.props.revealresult === true ||
-      //   this.props.answerOption === this.props.correctAnswer) ||
-      // this.props.chosenAnswer === this.props.answerOption
     );
   };
 
@@ -30,36 +26,48 @@ class AnswerChoice extends Component {
   render() {
     if (this.isCorrectAnswer()) {
       return (
-        <Card className="answerWrap bg-green ">
-          <Card.Body className="noPadding">{this.props.answerOption}</Card.Body>
-        </Card>
-      );
-    } else if (this.isWrongAnswer()) {
-      return (
-        <>
-          <Card className="answerWrap bg-red ">
+        <Col xs={12} sm={6} className="leftPull bottomPadding">
+          <Card className="answerWrap bg-green ">
             <Card.Body className="noPadding">
               {this.props.answerOption}
             </Card.Body>
           </Card>
-          {/* <GameOverPopup
-            prophistory={this.props.prophistory}
-            points={this.props.points}
-            setLocalStorage={this.props.setLocalStorage}
-          /> */}
+        </Col>
+      );
+    } else if (this.isWrongAnswer()) {
+      return (
+        <>
+          <Col xs={12} sm={6} className="leftPull bottomPadding">
+            <Card className="answerWrap bg-red ">
+              <Card.Body className="noPadding">
+                {this.props.answerOption}
+              </Card.Body>
+            </Card>
+          </Col>
         </>
       );
     } else if (this.props.clickStatus === "on") {
       return (
-        <Card className="answerWrap">
-          <Card.Body className="noPadding">{this.props.answerOption}</Card.Body>
-        </Card>
+        <Col xs={12} sm={6} className="leftPull bottomPadding">
+          <Card className="answerWrap bg-lightBlue">
+            <Card.Body className="noPadding">
+              {this.props.answerOption}
+            </Card.Body>
+          </Card>
+        </Col>
       );
     } else {
       return (
-        <Card className="answerWrap" onClick={this.props.handleClick}>
-          <Card.Body className="noPadding">{this.props.answerOption}</Card.Body>
-        </Card>
+        <Col xs={12} sm={6} className="leftPull bottomPadding">
+          <Card
+            className="answerWrap bg-lightBlue"
+            onClick={this.props.handleClick}
+          >
+            <Card.Body className="noPadding">
+              {this.props.answerOption}
+            </Card.Body>
+          </Card>
+        </Col>
       );
     }
   }

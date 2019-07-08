@@ -9,6 +9,7 @@ import GameStatistics from "./components/gameStatistics";
 import GameOverPopup from "./components/gameOverPopup";
 // import Timer from "./components/timer";
 import CountDown from "./components/countDown";
+import entities from "entities";
 
 function getAllUrlParams(url) {
   var queryString = url ? url.split("?")[1] : window.location.search.slice(1);
@@ -247,7 +248,7 @@ class App extends Component {
     let wrongchoices = list.incorrect_answers;
     let rightchoice = list.correct_answer;
     let multipleOptions = this.shuffleChoices(wrongchoices, rightchoice);
-    let que = list.question.replace(/&quot;/g, '"').replace(/&#039;/g, `'`);
+    let que = entities.decodeHTML(list.question);
     this.setState({
       question: que,
       answer: list.correct_answer,
@@ -299,14 +300,13 @@ class App extends Component {
 
   setGameEnd = () => {
     this.setState({ gameEnd: true });
-    let uName = this.state.userName;
-    let points = this.state.points;
-    let obj = { uName: points };
+    // let uName = this.state.userName;
+    let points = {
+      name = [this.state.userName],
+      score = [this.state.points]
+    }
     database
-      .ref(`rooms/${this.state.gameID}/playerPoints/${this.state.userName}`)
-      .set({
-        points
-      });
+      .ref(`rooms/${this.state.gameID}/playerPoints/`).update(points);
   };
 
   render() {
@@ -324,7 +324,7 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <Container>
+        <Container className="noPadding">
           <CountDown seconds={60} onFinish={this.setGameEnd} />
           <GameStatistics
             gamePoints={this.state.points}
