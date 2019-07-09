@@ -24,21 +24,11 @@ class GameOverPopup extends Component {
       this.setState({ show: true });
     }, 2000);
     console.log(this.props.points);
-
-    // database
-    //   .ref(`rooms/${this.state.gameID}/playerPoints/`)
-    //   .on("value", snapshot => {
-    //     if (snapshot.val()) {
-    //       console.log(snapshot.val());
-    //       console.log(Object.entries(snapshot.val()));
-    //       let abc = Object.entries(snapshot.val());
-    //       this.setState({ points: abc });
-    //     }
-    //   });
   }
 
   render() {
     let array = this.props.points;
+
     return (
       <>
         <Modal show={this.state.show} centered>

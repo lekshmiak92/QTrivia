@@ -63,7 +63,7 @@ class App extends Component {
       question: "Loading...",
       answer: "",
       wrongAnswers: [],
-      choicesArray: [],
+      choicesArray: [0, 0, 0, 0],
       chosenAnswer: "",
       clickStatus: "off",
       choseCorrectAnswer: false,
@@ -83,7 +83,7 @@ class App extends Component {
       gameLib: {},
       gameBegin: "",
       gameEnd: null,
-      pointsTable: {}
+      pointsTable: []
     };
   }
 
