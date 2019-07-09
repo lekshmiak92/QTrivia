@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/QTrivia/static/css/main.8733d1eb.chunk.css",
-    "main.js": "/QTrivia/static/js/main.ef703363.chunk.js",
-    "main.js.map": "/QTrivia/static/js/main.ef703363.chunk.js.map",
+    "main.js": "/QTrivia/static/js/main.cebd4d5b.chunk.js",
+    "main.js.map": "/QTrivia/static/js/main.cebd4d5b.chunk.js.map",
     "runtime~main.js": "/QTrivia/static/js/runtime~main.a0acde7f.js",
     "runtime~main.js.map": "/QTrivia/static/js/runtime~main.a0acde7f.js.map",
     "static/css/2.266e55a5.chunk.css": "/QTrivia/static/css/2.266e55a5.chunk.css",
     "static/js/2.d2844b2b.chunk.js": "/QTrivia/static/js/2.d2844b2b.chunk.js",
     "static/js/2.d2844b2b.chunk.js.map": "/QTrivia/static/js/2.d2844b2b.chunk.js.map",
     "index.html": "/QTrivia/index.html",
-    "precache-manifest.27732e81903fd0dbcbfc0f6bf39160b2.js": "/QTrivia/precache-manifest.27732e81903fd0dbcbfc0f6bf39160b2.js",
+    "precache-manifest.1253bf81e981162afb5305862dee104a.js": "/QTrivia/precache-manifest.1253bf81e981162afb5305862dee104a.js",
     "service-worker.js": "/QTrivia/service-worker.js",
     "static/css/2.266e55a5.chunk.css.map": "/QTrivia/static/css/2.266e55a5.chunk.css.map",
     "static/css/main.8733d1eb.chunk.css.map": "/QTrivia/static/css/main.8733d1eb.chunk.css.map",
