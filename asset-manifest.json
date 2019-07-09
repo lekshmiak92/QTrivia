@@ -1,17 +1,19 @@
 {
   "files": {
-    "main.css": "/QTrivia/static/css/main.bb9b9dbd.chunk.css",
-    "main.js": "/QTrivia/static/js/main.205d55f6.chunk.js",
-    "main.js.map": "/QTrivia/static/js/main.205d55f6.chunk.js.map",
+    "main.css": "/QTrivia/static/css/main.8733d1eb.chunk.css",
+    "main.js": "/QTrivia/static/js/main.ef703363.chunk.js",
+    "main.js.map": "/QTrivia/static/js/main.ef703363.chunk.js.map",
     "runtime~main.js": "/QTrivia/static/js/runtime~main.a0acde7f.js",
     "runtime~main.js.map": "/QTrivia/static/js/runtime~main.a0acde7f.js.map",
     "static/css/2.266e55a5.chunk.css": "/QTrivia/static/css/2.266e55a5.chunk.css",
-    "static/js/2.179945e6.chunk.js": "/QTrivia/static/js/2.179945e6.chunk.js",
-    "static/js/2.179945e6.chunk.js.map": "/QTrivia/static/js/2.179945e6.chunk.js.map",
+    "static/js/2.d2844b2b.chunk.js": "/QTrivia/static/js/2.d2844b2b.chunk.js",
+    "static/js/2.d2844b2b.chunk.js.map": "/QTrivia/static/js/2.d2844b2b.chunk.js.map",
     "index.html": "/QTrivia/index.html",
-    "precache-manifest.5d56457e6aa490caab86be3aab3443dc.js": "/QTrivia/precache-manifest.5d56457e6aa490caab86be3aab3443dc.js",
+    "precache-manifest.27732e81903fd0dbcbfc0f6bf39160b2.js": "/QTrivia/precache-manifest.27732e81903fd0dbcbfc0f6bf39160b2.js",
     "service-worker.js": "/QTrivia/service-worker.js",
     "static/css/2.266e55a5.chunk.css.map": "/QTrivia/static/css/2.266e55a5.chunk.css.map",
-    "static/css/main.bb9b9dbd.chunk.css.map": "/QTrivia/static/css/main.bb9b9dbd.chunk.css.map"
+    "static/css/main.8733d1eb.chunk.css.map": "/QTrivia/static/css/main.8733d1eb.chunk.css.map",
+    "static/media/Button-Play-icon.png": "/QTrivia/static/media/Button-Play-icon.6ea0c212.png",
+    "static/media/triviaLogo.png": "/QTrivia/static/media/triviaLogo.e7e84558.png"
   }
 }
