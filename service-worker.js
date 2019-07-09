@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/QTrivia/precache-manifest.0bc17db1436317f1e9e7b638b1698ce5.js"
+  "/QTrivia/precache-manifest.af34b2720f2a6344edafc8316e3c2694.js"
 );
 
 self.addEventListener('message', (event) => {
