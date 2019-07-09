@@ -7,7 +7,7 @@ import Instructions from "./components/instructions";
 
 const AppRouter = () => {
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router basename="/QTrivia">
       <div>
         <Route path="/" exact component={home} />
         <Route path="/game/" component={App} />
