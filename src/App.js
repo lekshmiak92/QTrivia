@@ -165,14 +165,14 @@ class App extends Component {
             console.log(data.userId);
             userId = data.userId;
             userName = data.userDetails.displayName;
+            this.setState({
+              userId: userId ? userId : "newid",
+              userName: userName ? userName : "newname"
+            });
           })
           .catch(e => {
             console.log(e);
           });
-        this.setState({
-          userId: userId ? userId : "newid",
-          userName: userName ? userName : "newname"
-        });
       }
 
       database
