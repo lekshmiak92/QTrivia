@@ -69,7 +69,7 @@ class App extends Component {
       choseCorrectAnswer: false,
       points: 0,
       currentQuestion: 1,
-      userName: "",
+      userName: "ddd",
       totalPoints: 0,
       userLevel: "",
       gameID: document.location.pathname
@@ -82,7 +82,8 @@ class App extends Component {
       gameTime: 30,
       gameLib: {},
       gameBegin: "",
-      gameEnd: null
+      gameEnd: null,
+      pointsTable: {}
     };
   }
 
@@ -108,6 +109,16 @@ class App extends Component {
           } catch (e) {
             console.log("Present Game ended");
           }
+        }
+      });
+    database
+      .ref(`rooms/${this.state.gameID}/playerPoints/`)
+      .on("value", snapshot => {
+        if (snapshot.val()) {
+          console.log(snapshot.val());
+          console.log(Object.entries(snapshot.val()));
+          let abc = Object.entries(snapshot.val());
+          this.setState({ pointsTable: abc });
         }
       });
   }
@@ -159,8 +170,8 @@ class App extends Component {
             console.log(e);
           });
         this.setState({
-          userId: userId,
-          userName: userName
+          userId: userId ? userId : "newid",
+          userName: userName ? userName : "newname"
         });
       }
 
@@ -192,10 +203,10 @@ class App extends Component {
                   console.log("hoy");
                   this.setState({ isInitialiser: true });
                   this.getQuestions();
-
-                  database
-                    .ref(`rooms/${this.state.gameID}/initialiser`)
-                    .set(userId ? userId : 999);
+                  database.ref(`rooms/${this.state.gameID}/`).update({
+                    initialiser: userId ? userId : 999,
+                    playerPoints: ""
+                  });
                 } else {
                   database
                     .ref(`rooms/${this.state.gameID}/gamelib`)
@@ -300,13 +311,15 @@ class App extends Component {
 
   setGameEnd = () => {
     this.setState({ gameEnd: true });
-    // let uName = this.state.userName;
-    let points = {
-      name = [this.state.userName],
-      score = [this.state.points]
-    }
+
+    let name = this.state.userName
+      ? this.state.userName
+      : Math.random()
+          .toString(36)
+          .substring(7);
     database
-      .ref(`rooms/${this.state.gameID}/playerPoints/`).update(points);
+      .ref(`rooms/${this.state.gameID}/playerPoints/${name}`)
+      .set(this.state.points);
   };
 
   render() {
@@ -318,7 +331,7 @@ class App extends Component {
       this.resetGameBegin();
     }
     if (gameEnd) {
-      popup = <GameOverPopup />;
+      popup = <GameOverPopup points={this.state.pointsTable} />;
     } else {
       popup = "";
     }

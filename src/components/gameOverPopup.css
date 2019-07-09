@@ -1,0 +1,13 @@
+p.scorerow {
+  padding: 0em 2em;
+}
+
+span.userscore {
+  float: right;
+  color: darkgreen;
+  font-size: 1.3em;
+}
+span.username {
+  font-size: 1.3em;
+  color: crimson;
+}

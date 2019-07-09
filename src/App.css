@@ -4,6 +4,13 @@
 .logo {
   width: 35%;
 }
+img.start {
+  width: 15%;
+}
+span.text {
+  font-size: 27px;
+  color: #b6057e;
+}
 .card {
   background-color: #fff;
   border-radius: 15px;
@@ -76,48 +83,6 @@ span.gamePoints {
 }
 pre {
   white-space: unset;
-}
-
-/* style for timer */
-
-.countdown-timer {
-  position: absolute;
-  width: 52px;
-  height: 52px;
-}
-
-.countdown-timer__circle circle {
-  stroke-dasharray: 151px;
-  stroke-dashoffset: 151px;
-  stroke-linecap: butt;
-  stroke-width: 4px;
-  stroke: #fd4f57;
-  fill: none;
-}
-
-.countdown-timer__circle svg {
-  width: 52px;
-  height: 52px;
-  transform: rotate(-90deg);
-}
-
-.countdown-timer__text {
-  position: absolute;
-  top: 17px;
-  width: 52px;
-
-  font-size: 14px;
-  font-weight: 600;
-  text-align: center;
-}
-
-@keyframes countdown-animation {
-  from {
-    stroke-dashoffset: 151px;
-  }
-  to {
-    stroke-dashoffset: 0px;
-  }
 }
 
 .bottomPadding {

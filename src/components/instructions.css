@@ -1,0 +1,11 @@
+.progCard {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 80%;
+  margin: 5% auto;
+  padding: 3%;
+  text-align: center;
+  flex-direction: unset;
+}
+.textAllignLeft {
+  text-align: left;
+}
