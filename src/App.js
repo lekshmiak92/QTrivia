@@ -126,7 +126,7 @@ class App extends Component {
   getUserId = () => {
     console.log("getUser Id functions", this.state.gameID);
 
-    if (!this.state.userId) {
+    if (this.state.userId) {
       console.log("[App.js] getUserId()");
       let token, userId, userName;
       let playerList = {
