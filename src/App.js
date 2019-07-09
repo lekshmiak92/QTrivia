@@ -77,7 +77,7 @@ class App extends Component {
           ? id
           : "no_game_id"
         : "no_location_pathname",
-      userId: "",
+      userId: null,
       isInitialiser: false,
       gameTime: 30,
       gameLib: {},
@@ -126,7 +126,7 @@ class App extends Component {
   getUserId = () => {
     console.log("getUser Id functions", this.state.gameID);
 
-    if (this.state.userId) {
+    if (!this.state.userId) {
       console.log("[App.js] getUserId()");
       let token, userId, userName;
       let playerList = {
@@ -224,6 +224,7 @@ class App extends Component {
 
             this.setState({
               userName: userName,
+              userId: userId,
               playerList: playerList,
               loading: false
             });
