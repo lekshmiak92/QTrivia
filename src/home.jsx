@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
-import { Container, Row, Button } from "react-bootstrap";
+import { Container, Image } from "react-bootstrap";
 import logo from "./assets/triviaLogo.png";
 import start from "./assets/Button-Play-icon.png";
+import howToPlay from "./assets/qmark.jpeg";
 import "./App.css";
 
 class Home extends Component {
@@ -14,17 +15,22 @@ class Home extends Component {
   render() {
     return (
       <div className="App">
-        <Container className="noPadding">
-          <img src={logo} className="logo" />
-
-          <div>
-            <Link to="/game/">
-              <Button variant="outline-light">
-                <img src={start} className="start" />
-                <span className="text"> START</span>
-              </Button>
-            </Link>
-          </div>
+        <Container className="pad1">
+          <Image src={logo} fluid />
+          <ul>
+            <li className="hometabs">
+              <Link to="/game/">
+                <Image src={start} fluid className="start" />
+                <span className="text"> Start</span>
+              </Link>
+            </li>
+            <li className="hometabs">
+              <Link to="/howToPlay/">
+                <Image src={howToPlay} fluid className="start" />
+                <span className="text"> How to Play</span>
+              </Link>
+            </li>
+          </ul>
         </Container>
       </div>
     );

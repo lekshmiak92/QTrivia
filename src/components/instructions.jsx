@@ -24,21 +24,6 @@ const Instructions = () => {
                   Earn Maximum points by answering as many questions you can in
                   60 seconds..!! Make your moves fast !!
                 </li>
-                {/* <li>
-                  But once you choose wrong option at any stage , you lose the
-                  game and the points earned so far will be added to your total
-                  points earned.
-                </li>
-                <li>
-                  Initially you will be holding "Beginner" badge. Earn more
-                  points to Upgrade your Mastery Level
-                </li>
-                <li>
-                  0-500 points --> Beginner <br />
-                  501-1000 points --> Expert <br />
-                  1001-1500 points --> Genius <br />
-                  Above 1501 points --> Champion <br />
-                </li> */}
               </ul>
               <div>
                 <Link to="/">

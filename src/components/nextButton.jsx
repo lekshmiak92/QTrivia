@@ -4,23 +4,24 @@ import Row from "react-bootstrap/Row";
 import "../App.css";
 
 const NextButton = props => {
+  let disabledProp;
   if (props.clickStatus === "on") {
-    return (
-      <Row className="navWrap">
-        <Button variant="primary" onClick={props.onClickOfNext}>
-          {props.text}
-        </Button>
-      </Row>
-    );
+    disabledProp = false;
   } else {
-    return (
-      <Row className="navWrap">
-        <Button variant="primary" onClick={props.onClickOfNext} disabled>
-          {props.text}
-        </Button>
-      </Row>
-    );
+    disabledProp = true;
   }
+
+  return (
+    <Row className="navWrap">
+      <Button
+        variant="primary"
+        onClick={props.onClickOfNext}
+        disabled={disabledProp}
+      >
+        {props.text}
+      </Button>
+    </Row>
+  );
 };
 
 export default NextButton;

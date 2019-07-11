@@ -23,7 +23,6 @@ class CountDown extends Component {
   render() {
     return (
       <div>
-        {/* <p>{this.state.seconds}sec...</p> */}
         <ProgressBar
           animated
           now={this.state.seconds * (5 / 3)}

@@ -7,7 +7,6 @@ import AnswerChoice from "./components/answerChoice";
 import NextButton from "./components/nextButton";
 import GameStatistics from "./components/gameStatistics";
 import GameOverPopup from "./components/gameOverPopup";
-// import Timer from "./components/timer";
 import CountDown from "./components/countDown";
 import entities from "entities";
 
@@ -79,7 +78,7 @@ class App extends Component {
         : "no_location_pathname",
       userId: null,
       isInitialiser: false,
-      gameTime: 30,
+      gameTime: 0,
       gameLib: {},
       gameBegin: "",
       gameEnd: null,
@@ -115,8 +114,6 @@ class App extends Component {
       .ref(`rooms/${this.state.gameID}/playerPoints/`)
       .on("value", snapshot => {
         if (snapshot.val()) {
-          console.log(snapshot.val());
-          console.log(Object.entries(snapshot.val()));
           let abc = Object.entries(snapshot.val());
           this.setState({ pointsTable: abc });
         }
@@ -193,8 +190,7 @@ class App extends Component {
 
             try {
               let zeroIndex = playerList.id.indexOf(0);
-              console.log(playerList.id);
-              console.log(playerList);
+
               if (zeroIndex !== -1) {
                 playerList.id[zeroIndex] = userId ? userId : "testid";
                 playerList.name[zeroIndex] = userName ? userName : "testUser";
@@ -212,7 +208,11 @@ class App extends Component {
                     .ref(`rooms/${this.state.gameID}/gamelib`)
                     .once("value", snapshot => {
                       let array = snapshot.val().results;
-                      this.setState({ gameLib: array, gameBegin: "true" });
+                      this.setState({
+                        gameLib: array,
+                        gameBegin: "true",
+                        gameTime: 60
+                      });
                     });
                 }
                 playerList.id.push(userId ? userId : "testid");
@@ -238,22 +238,22 @@ class App extends Component {
   };
 
   getQuestions = () => {
-    console.log(this.state.isInitialiser, "dhe ithu varunnundo entho");
-    fetch(`https://opentdb.com/api.php?amount=30&difficulty=easy&type=multiple`)
+    fetch(`https://opentdb.com/api.php?amount=60`)
       .then(res => res.json())
       .then(apiData => {
         database.ref(`rooms/${this.state.gameID}`).update({
           gamelib: apiData,
           gameStatus: "start"
         });
-        this.setState({ gameLib: apiData.results, gameBegin: "true" });
+        this.setState({
+          gameLib: apiData.results,
+          gameBegin: "true",
+          gameTime: 60
+        });
       });
   };
 
   getState = () => {
-    console.log("inside getstate");
-    console.log(this.state.gameLib);
-
     let i = this.state.currentQuestion - 1;
     let list = this.state.gameLib[i];
     console.log(i);
@@ -270,6 +270,9 @@ class App extends Component {
 
   shuffleChoices = (wrongOptions, rightOption) => {
     let choiceArray = wrongOptions.concat(rightOption);
+    for (let i = 0; i < choiceArray.length; i++) {
+      choiceArray[i] = entities.decodeHTML(choiceArray[i]);
+    }
     choiceArray = choiceArray.sort((a, b) => {
       return 0.5 - Math.random();
     });

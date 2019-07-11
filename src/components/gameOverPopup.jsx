@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { database } from "../firebase";
 import { Link } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 import "./gameOverPopup.css";
@@ -23,7 +22,6 @@ class GameOverPopup extends Component {
     setTimeout(() => {
       this.setState({ show: true });
     }, 2000);
-    console.log(this.props.points);
   }
 
   render() {
@@ -38,7 +36,7 @@ class GameOverPopup extends Component {
           <Modal.Body>
             <h3>Scoreboard</h3>
             {array.map((element, index) => (
-              <p className="scorerow">
+              <p className="scorerow" key={index}>
                 <span className="username">{element[0]}</span>
                 <span className="userscore">{element[1]}</span>
               </p>

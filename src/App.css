@@ -2,7 +2,7 @@
   text-align: center;
 }
 .logo {
-  width: 35%;
+  /* width: 35%; */
 }
 img.start {
   width: 15%;
@@ -40,6 +40,9 @@ span.text {
 }
 .noPadding {
   padding: 0%;
+}
+.pad1 {
+  padding: 20% 0%;
 }
 .spanOption {
   float: left;
@@ -87,4 +90,10 @@ pre {
 
 .bottomPadding {
   padding-bottom: 1em;
+}
+li.hometabs {
+  text-align: justify;
+  padding-left: 27%;
+  margin: 3% 0%;
+  list-style: none;
 }
