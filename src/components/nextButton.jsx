@@ -12,7 +12,7 @@ const NextButton = props => {
   }
 
   return (
-    <Row className="navWrap">
+    <Row className="navWrap" style={{ padding: "0% 10%" }}>
       <Button
         variant="primary"
         onClick={props.onClickOfNext}

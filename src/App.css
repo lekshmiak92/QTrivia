@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  max-height: 100%;
 }
 .logo {
   /* width: 35%; */
@@ -22,7 +23,7 @@ span.text {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   margin: 5% auto 10% auto;
   width: max-content;
-  padding: 1rem;
+  /* padding: 1rem; */
   max-width: fit-content;
   background: #ffff8c;
 }
@@ -93,7 +94,7 @@ pre {
 }
 li.hometabs {
   text-align: justify;
-  padding-left: 27%;
+  padding-left: 24%;
   margin: 3% 0%;
   list-style: none;
 }
