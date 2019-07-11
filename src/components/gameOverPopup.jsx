@@ -34,7 +34,7 @@ class GameOverPopup extends Component {
             <Modal.Title>Time up ..!! </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h3>Scoreboard</h3>
+            <h4>Scoreboard</h4>
             {array.map((element, index) => (
               <p className="scorerow" key={index}>
                 <span className="username">{element[0]}</span>

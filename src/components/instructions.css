@@ -5,6 +5,7 @@
   padding: 3%;
   text-align: center;
   flex-direction: unset;
+  background-color: beige;
 }
 .textAllignLeft {
   text-align: left;

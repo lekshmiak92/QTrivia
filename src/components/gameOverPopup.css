@@ -11,3 +11,14 @@ span.username {
   font-size: 1.3em;
   color: crimson;
 }
+h4 {
+  text-align: center;
+  color: darkmagenta;
+}
+.modal-body {
+  position: relative;
+  flex: 1 1 auto;
+  padding: 1rem;
+  height: 15em;
+  overflow: scroll;
+}
