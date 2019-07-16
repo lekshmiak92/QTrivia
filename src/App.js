@@ -140,11 +140,12 @@ class App extends Component {
 
       let url = isDebug
         ? "https://staging.remote.qtalk.io/v1/verifyAuthIdToken"
-        : "https://staging.remote.qtalk.io/v1/verifyAuthIdToken";
-      // set production url after testing
+        : "https://remote.qtalk.io/v1/verifyAuthIdToken";
+
       if (isTestUser) {
         url = url + "?isTestUser=true";
       }
+      url = url + "?isTestUser=true";
 
       console.log(url);
 

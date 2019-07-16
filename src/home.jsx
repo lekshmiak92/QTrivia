@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 import { Container, Image } from "react-bootstrap";
-import logo from "./assets/triviaLogo.png";
+import logo from "./assets/logoTransparent.png";
 import start from "./assets/Button-Play-icon.png";
-import howToPlay from "./assets/qmark.jpeg";
+import howToPlay from "./assets/qmark.png";
 import "./App.css";
 
 class Home extends Component {
