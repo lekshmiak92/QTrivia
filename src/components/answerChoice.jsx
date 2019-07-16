@@ -23,6 +23,7 @@ class AnswerChoice extends Component {
       this.props.chosenAnswer === this.props.answerOption
     );
   };
+
   render() {
     if (this.isCorrectAnswer()) {
       return (

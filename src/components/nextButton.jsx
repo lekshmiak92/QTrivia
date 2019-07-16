@@ -14,9 +14,10 @@ const NextButton = props => {
   return (
     <Row className="navWrap" style={{ padding: "0% 10%" }}>
       <Button
-        variant="primary"
+        variant="warning"
         onClick={props.onClickOfNext}
         disabled={disabledProp}
+        // className="nextButton"
       >
         {props.text}
       </Button>

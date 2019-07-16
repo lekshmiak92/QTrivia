@@ -62,7 +62,7 @@ class App extends Component {
       question: "Loading...",
       answer: "",
       wrongAnswers: [],
-      choicesArray: [0, 0, 0, 0],
+      choicesArray: [" ", " ", " ", " "],
       chosenAnswer: "",
       clickStatus: "off",
       choseCorrectAnswer: false,
@@ -140,8 +140,8 @@ class App extends Component {
 
       let url = isDebug
         ? "https://staging.remote.qtalk.io/v1/verifyAuthIdToken"
-        : "https://remote.qtalk.io/v1/verifyAuthIdToken";
-
+        : "https://staging.remote.qtalk.io/v1/verifyAuthIdToken";
+      // set production url after testing
       if (isTestUser) {
         url = url + "?isTestUser=true";
       }

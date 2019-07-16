@@ -1,12 +1,17 @@
 .App {
   text-align: center;
-  max-height: 100%;
+  max-height: 100vh;
+  height: 100vh;
+  background-color: #410551;
+  overflow: auto;
 }
-.logo {
-  /* width: 35%; */
+.Game {
+  text-align: center;
+  max-height: 100vh;
+  height: 100vh;
 }
 img.start {
-  width: 15%;
+  width: 5vh;
 }
 span.text {
   font-size: 27px;
@@ -21,16 +26,16 @@ span.text {
 }
 .quesCard {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  margin: 5% auto 10% auto;
+  margin: 5vh auto 4vh auto;
   width: max-content;
   /* padding: 1rem; */
   max-width: fit-content;
   background: #ffff8c;
 }
 .answerWrap {
-  /* width: 46%;
-  padding: 1%;
-  margin: 3% 2%; */
+  /* width: 46vh;
+  padding: 1vh;
+  margin: 3vh 2vh; */
   width: inherit;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 25px;
@@ -40,10 +45,10 @@ span.text {
   float: left;
 }
 .noPadding {
-  padding: 0%;
+  padding: 0vh;
 }
 .pad1 {
-  padding: 20% 0%;
+  padding: 20vh 0vh;
 }
 .spanOption {
   float: left;
@@ -53,13 +58,14 @@ span.text {
   margin: 0px;
 }
 .bg-green {
-  background-color: rgb(96, 219, 96);
+  background-color: #bbffbb;
 }
 .bg-red {
-  background-color: rgb(245, 40, 40);
+  /* background-color: rgb(245, 40, 40); */
+  background-color: #ff9595;
 }
 .bg-lightBlue {
-  background: #c3d2ed;
+  background: #dde2ed;
 }
 .navWrap {
   clear: both;
@@ -74,17 +80,17 @@ span.gamePoints {
 }
 .statistics {
   justify-content: space-evenly;
-  background: #b6f1b6;
+  background: #dcfdbe;
 }
 
 .setMargin {
-  margin: 2%;
+  margin: 2vh;
 }
-.btn-primary:disabled {
+/* .btn-warning:disabled {
   color: #fff;
-  background-color: #b7bdc3;
-  border-color: #007bff;
-}
+  background-color: #ffc107;
+  border-color: #ffc107;
+} */
 pre {
   white-space: unset;
 }
@@ -94,7 +100,8 @@ pre {
 }
 li.hometabs {
   text-align: justify;
-  padding-left: 24%;
-  margin: 3% 0%;
+  width: max-content;
+
+  margin: 3vh auto;
   list-style: none;
 }

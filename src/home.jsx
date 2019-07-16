@@ -14,7 +14,7 @@ class Home extends Component {
   }
   render() {
     return (
-      <div className="App">
+      <div className="Game">
         <Container className="pad1">
           <Image src={logo} fluid />
           <ul>
