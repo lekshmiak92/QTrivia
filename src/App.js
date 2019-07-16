@@ -145,7 +145,6 @@ class App extends Component {
       if (isTestUser) {
         url = url + "?isTestUser=true";
       }
-      url = url + "?isTestUser=true";
 
       console.log(url);
 
