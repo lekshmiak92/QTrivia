@@ -67,7 +67,7 @@ class App extends Component {
       clickStatus: "off",
       choseCorrectAnswer: false,
       points: 0,
-      currentQuestion: 1,
+      currentQuestion: 0,
       userName: "ddd",
       totalPoints: 0,
       userLevel: "",
@@ -78,7 +78,7 @@ class App extends Component {
         : "no_location_pathname",
       userId: null,
       isInitialiser: false,
-      gameTime: 0,
+      gameTime: 60,
       gameLib: {},
       gameBegin: "",
       gameEnd: null,
@@ -213,6 +213,7 @@ class App extends Component {
                         gameBegin: "true",
                         gameTime: 60
                       });
+                      this.getState();
                     });
                 }
                 playerList.id.push(userId ? userId : "testid");
@@ -250,11 +251,14 @@ class App extends Component {
           gameBegin: "true",
           gameTime: 60
         });
+        this.getState();
       });
   };
 
   getState = () => {
-    let i = this.state.currentQuestion - 1;
+    //rename func
+
+    let i = this.state.currentQuestion;
     let list = this.state.gameLib[i];
     console.log(i);
     let wrongchoices = list.incorrect_answers;
@@ -262,6 +266,10 @@ class App extends Component {
     let multipleOptions = this.shuffleChoices(wrongchoices, rightchoice);
     let que = entities.decodeHTML(list.question);
     this.setState({
+      currentQuestion: this.state.currentQuestion + 1,
+      chosenAnswer: "",
+      clickStatus: "off",
+      choseCorrectAnswer: false,
       question: que,
       answer: list.correct_answer,
       choicesArray: multipleOptions
@@ -300,12 +308,6 @@ class App extends Component {
   };
 
   handleClickOfNext = () => {
-    this.setState({
-      currentQuestion: this.state.currentQuestion + 1,
-      chosenAnswer: "",
-      clickStatus: "off",
-      choseCorrectAnswer: false
-    });
     this.getState();
   };
 
@@ -327,53 +329,58 @@ class App extends Component {
   };
 
   render() {
-    let stat = this.state.gameBegin;
+    let timer = this.state.gameTime;
     let gameEnd = this.state.gameEnd;
     let popup;
-    if (stat === "true" && this.state.gameLib !== null) {
-      this.getState();
-      this.resetGameBegin();
-    }
+    // if (stat === "true" && this.state.gameLib !== null) {
+    //   this.getState();
+    //   this.resetGameBegin();
+    // }
     if (gameEnd) {
       popup = <GameOverPopup points={this.state.pointsTable} />;
     } else {
       popup = "";
     }
-    return (
-      <div className="App">
-        <Container className="noPadding">
-          <CountDown seconds={60} onFinish={this.setGameEnd} />
-          <GameStatistics
-            gamePoints={this.state.points}
-            currentQuestion={this.state.currentQuestion}
-          />
-          <Row>
-            <Question ques={this.state.question} />
-          </Row>
-          {this.state.choicesArray.map((element, index) => (
-            <AnswerChoice
-              key={index}
-              answerOption={element}
-              handleClick={this.handleOptionClick}
-              chosenAnswer={this.state.chosenAnswer}
-              revealresult={this.state.choseCorrectAnswer}
-              clickStatus={this.state.clickStatus}
-              correctAnswer={this.state.answer}
-              prophistory={this.props.history}
-              points={this.state.points}
-            />
-          ))}
 
-          <NextButton
-            text="Next"
-            clickStatus={this.state.clickStatus}
-            onClickOfNext={this.handleClickOfNext}
-            choseCorrectAnswer={this.state.choseCorrectAnswer}
-          />
-          {popup}
-        </Container>
-      </div>
-    );
+    if (this.state.gameLib === null) {
+      return null;
+    } else {
+      return (
+        <div className="App">
+          <Container className="noPadding">
+            <CountDown seconds={timer} onFinish={this.setGameEnd} />
+            <GameStatistics
+              gamePoints={this.state.points}
+              currentQuestion={this.state.currentQuestion}
+            />
+            <Row>
+              <Question ques={this.state.question} />
+            </Row>
+            {this.state.choicesArray.map((element, index) => (
+              <AnswerChoice
+                key={index}
+                answerOption={element}
+                handleClick={this.handleOptionClick}
+                chosenAnswer={this.state.chosenAnswer}
+                revealresult={this.state.choseCorrectAnswer}
+                clickStatus={this.state.clickStatus}
+                correctAnswer={this.state.answer}
+                prophistory={this.props.history}
+                points={this.state.points}
+              />
+            ))}
+
+            <NextButton
+              text="Next"
+              clickStatus={this.state.clickStatus}
+              onClickOfNext={this.handleClickOfNext}
+              choseCorrectAnswer={this.state.choseCorrectAnswer}
+            />
+            {popup}
+          </Container>
+        </div>
+      );
+    }
   }
 }
 
